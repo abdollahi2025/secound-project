@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تایمر معکوس</title>
+  <style>
+    .card {
+      width: 250px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .timer-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>محصول ویژه :gift:</h3>
+    <p>تخفیف تا پایان تایمر</p>
+    <a href="#" class="timer-link" id="timer">--:--:--</a>
+  </div>
+
+  <script>
+    // اینجا زمان نهایی رو مشخص می‌کنیم (مثلا 15 ساعت و 45 دقیقه بعد از الان)
+    let endTime = new Date("2025-08-28T20:00:00").getTime();
+
+    let timerElement = document.getElementById("timer");
+
+    function updateTimer() {
+      let now = new Date().getTime();
+      let distance = endTime - now;
+
+      if (distance < 0) {
+        timerElement.innerHTML = "پایان یافت :hourglass_flowing_sand:";
+        clearInterval(timerInterval);
+        return;
+      }
+
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      timerElement.innerHTML = `${hours} : ${minutes} : ${seconds}`;
+    }
+
+    let timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>

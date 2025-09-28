@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تایمر روی a</title>
+    <script src="js/jalaali.min.js"></script>
+
+  <!-- <style>
+    .card {
+      width: 250px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .timer-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style> -->
+</head>
+<body>
+  <div class="card">
+    <h3>محصول ویژه :gift:</h3>
+    <p>تخفیف تا پایان تایمر</p>
+    <a href="#" class="timer-link" id="timer">--:--:--</a>
+  </div>
+
+  <script>
+    // تاریخ شمسی مقصد: 10 شهریور 1404
+    let jy = 1404, jm = 6, jd = 10;
+    let hour = 17, minute = 30, second = 0; // 5:30 عصر
+
+    // تبدیل شمسی به میلادی با jalaali-js
+    let g = jalaali.toGregorian(jy, jm, jd);
+console.log(g);
+
+    // تاریخ نهایی
+let endTime = new Date(`${g.gy}-${String(g.gm).padStart(2,"0")}-${String(g.gd).padStart(2,"0")}T${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}:${String(second).padStart(2,"0")}`).getTime();
+    let timerElement = document.getElementById("timer");
+
+    function updateTimer() {
+      let now = new Date().getTime();
+      let distance = endTime - now;
+
+      if (distance < 0) {
+        timerElement.innerHTML = ":hourglass_flowing_sand: پایان یافت";
+        clearInterval(timerInterval);
+        return;
+      }
+
+      let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // اگه بیشتر از یه روز مونده، روز هم نشون بده
+if (days > 0) {
+  timerElement.innerHTML = `${days} روز ${hours}:${minutes}:${seconds}`;
+} else {
+  timerElement.innerHTML = `${hours}:${minutes}:${seconds}`;
+}    }
+
+    let timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
